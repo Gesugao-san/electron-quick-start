@@ -20,13 +20,29 @@
     -->
 
     <div>
-      <button id="do_download">Download data</button>
+      <button id="feed_download_clear">Clear feed file</button>
+      <button id="feed_download_action">Download feed file</button>
+      <button id="feed_download_read">Read feed file</button>
       <div>Status:</div>
-      <p id="download_status">Waiting for click...</p>
+      <p id="feed_download_status">Waiting for click...</p>
+    </div>
+
+    <div>
+      <button id="feed_process_clear">Clear feed data</button>
+      <button id="feed_process_action">Process feed data</button>
+      <div>Status:</div>
+      <p id="process_status">Waiting for click...</p>
+      <div>Feed:</div>
+      <div id="feeds_shown">
+        <ul>
+          <li>Lorem</li>
+          <li>Ipsum</li>
+        </ul>
+      </div>
     </div>
 
     <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>
-		<script src="./download.js"></script>
+    <script src="./download.js"></script>
   </body>
 </html>
