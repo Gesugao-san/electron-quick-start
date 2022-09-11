@@ -1,7 +1,9 @@
 {
     "recommendations": [
-        "gesugao-san.general-purpose-extension-pack",
-        "uniquevision.vscode-plpgsql-lsp",
-        "afractal.node-essentials"
+      "gesugao-san.general-purpose-extension-pack",
+      "uniquevision.vscode-plpgsql-lsp",
+      "afractal.node-essentials",
+      "idleberg.electron-builder",
+      "mikemcbride.electron-highlighter"
     ]
 }
