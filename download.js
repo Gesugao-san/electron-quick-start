@@ -14,44 +14,62 @@ const url = require('url');
 require('dotenv').config();
 
 
-const host = process.env.HOST || 'localhost';
+const host = process.env.HOST || 'http://localhost';
 const port = process.env.PORT || 80;
+const cwd  = process.cwd();  //process.env.CWD  || process.cwd();
 const spid = process.env.SPID || 'abcd';
 
+let data_matrix = {
+	"cache": {
+		"feed": {
+			"meta": {
+				"filename": path.join("cache", "feed")
+			},
+			"raw": {
+				"exist": false,
+				"path": path.join(cwd, "cache", "feed.js")
+			},
+			"processed": {
+				"exist": false,
+				"path": null
+			},
+		}
+	}
+}
+
+
+function status_update(data) {
+  document.getElementById("download_status").innerHTML = data;
+}
 
 function doNotify(evt) {
-  console.debug('Debug:', evt);
+  //console.debug('Debug:', evt);
   if (evt.srcElement.id == "do_download") {
-    document.getElementById("download_status").innerHTML = "You click on me!";
-    return;
+    status_update('Download started...'); //"You click on me!"
     const user_ip = "You";
     console.log(`${user_ip} pulls feed.`);
-    //matrix_exist_update();
-    //res.setHeader('Content-Type', 'application/json;');
-    const file = fs.createWriteStream(data_matrix.cache.feed.renamed.path);
-    //console.log('file:', file);
-    /* if (new Date('2017-09-28T22:59:02.448804522Z') > new Date()) {
-      break;
-    } */
-    const req_file = https.get(host, (response) => {
+    const file = fs.createWriteStream(data_matrix.cache.feed.raw.path);
+    console.log(`Debug: ${host}:${port}/openb/get/feed.js?lorem=ipsum`);
+    const req_file = http.get(`${host}:${port}/openb/get/feed.js?lorem=ipsum`, (response) => {
       console.log(`${user_ip}: Download started.`);
       response.pipe(file);
       // after download completed close filestream
       file.on('finish', () => {
         console.log(`${user_ip}: Download completed.`);
+        status_update('Download completed');
         file.close();
       });
       file.once('close', () => {
         try {
-          stat = fs.statSync(data_matrix.cache.feed.renamed.path);
-          fs.rename(data_matrix.cache.feed.raw.path, data_matrix.cache.feed.renamed.path, (error) => {
+          stat = fs.statSync(data_matrix.cache.feed.raw.path);
+          /* fs.rename(data_matrix.cache.feed.raw.path, data_matrix.cache.feed.raw.path, (error) => {
             if (error) {
               console.error(error);
               res.writeHead(500); // res.statusCode = 500;
               res.end(JSON.stringify({error: "Internal Server Error!", details: error}));
             }
-            console.log(`${user_ip}: File Renamed.`);
-          });
+            console.log(`${user_ip}: File raw.`);
+          }); */
           // https://stackoverflow.com/a/17699926/8175291
           /* fs.stat('foo.txt', (err, stat) => {
             if (err == null) {
@@ -62,13 +80,15 @@ function doNotify(evt) {
               console.log('Some other error: ', err.code);
             }
           }); */
-          res.writeHead(200); //res.statusCode = 200;
-          res.end(JSON.stringify({message: "Update done!", rtime: timestamp.valueOf()}));
+          //res.writeHead(200); //res.statusCode = 200;
+          //res.end(JSON.stringify({message: "Update done!", rtime: timestamp.valueOf()}));
+          status_update('200');
         }
         catch (err) {
           console.log(err);
-          res.writeHead(500); //res.statusCode = 500;
-          res.end(JSON.stringify({error: "Internal Server Error!", details: err}));
+          status_update(err);
+          //res.writeHead(500); //res.statusCode = 500;
+          //res.end(JSON.stringify({error: "Internal Server Error!", details: err}));
         }
       });
     });
