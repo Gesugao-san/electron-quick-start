@@ -5,15 +5,22 @@
 			"type": "npm",
 			"script": "install",
 			"problemMatcher": [],
-			"label": "npm: install",
-			"detail": "install dependencies from package"
+			"label": "npm install",
+			"detail": "Install dependencies from \"package.json\"."
 		},
 		{
 			"type": "npm",
 			"script": "start",
 			"problemMatcher": [],
-			"label": "electron .",
-			"detail": "electron . --trace-warnings",
+			"label": "Run ElectronJS",
+			"detail": "Just runs ElectronJS in native Node.js enviroment. Crashes will kill process."
+		},
+		{
+			"type": "npm",
+			"script": "start:nodemon",
+			"problemMatcher": [],
+			"label": "Run nodemon (recommended)",
+			"detail": "Runs ElectronJS in nodemon wrapper. Crashes will restart process. Warning: nodemon blocks files, can't delete them!",
 			"group": {
 				"kind": "build",
 				"isDefault": true

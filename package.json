@@ -4,7 +4,9 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron . --trace-warnings"
+    "start": "electron .",
+    "start:nodemon": "nodemon --exec npm start",
+    "start:nodemon_main": "nodemon --watch main.js --exec npm start"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [

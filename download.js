@@ -14,23 +14,26 @@ const url = require('url');
 require('dotenv').config();
 
 
-const host = process.env.HOST || 'http://localhost';
-const port = process.env.PORT || 80;
+const host = process.env.HOST || 'http://0.0.0.0';
+const port = process.env.PORT || 880;
 const cwd  = process.cwd();  //process.env.CWD  || process.cwd();
 const spid = process.env.SPID || 'abcd';
 
 let data_matrix = {
-	"cache": {
-		"feed": {
-			"meta": {
-				"filename": path.join("cache", "feed")
-			},
-			"processed": {
-				"exist": false,
-				"path": path.join(cwd, "cache", "feed.json")
-			},
-		}
-	}
+  "cache": {
+    "meta": {
+      "path": "./cache"
+    },
+    "feed": {
+      "meta": {
+        "filename": path.join("cache", "feed")
+      },
+      "processed": {
+        "exist": false,
+        "path": path.join(cwd, "cache", "feed.json")
+      },
+    }
+  }
 }
 
 let feed_data = {};
@@ -83,20 +86,32 @@ function status_update(element, data) {
 function func_feed_download(ev) {
   switch (ev.srcElement.id) {
     case "feed_download_clear":  // if (ev.srcElement.id == "feed_download_action") {
-      fs.unlink(data_matrix.cache.feed.processed.path, (error) => {
-        if (error) console.error(error);
-      });
       feed_data = {};
+      fs.unlinkSync(path.resolve(data_matrix.cache.feed.processed.path), (error) => {
+        if (error) {
+          status_update('feed_download_status', 'Error:' + error);
+          return console.error(error);
+        }
+      });
       status_update('feed_download_status', 'Feed file cleared.');
       break;
     case "feed_download_action":
       status_update('feed_download_status', 'Feed file download started...'); //"You click on me!"
       const user_ip = "You";
       console.log(`${user_ip} pulls feed.`);
-      const file = fs.createWriteStream(data_matrix.cache.feed.processed.path);
+      if (!fs.existsSync(path.resolve(data_matrix.cache.meta.path))) {
+        console.warn('Cache directory not found.');
+        fs.mkdirSync(path.resolve(data_matrix.cache.meta.path));
+        console.warn('Cache directory created.');
+      }
+      const file = fs.createWriteStream(data_matrix.cache.feed.processed.path, {flags: 'w'}); //{ overwrite: false }
       console.log(`Debug (URL): ${host}:${port}/openb/get/feed.json?lorem=ipsum`);
       const req_file = http.get(`${host}:${port}/openb/get/feed.json?lorem=ipsum`, (response) => {
         console.log(`${user_ip}: Download started.`);
+        if (error) {
+          status_update('feed_download_status', 'Error:' + error);
+          return console.error(error);
+        }
         response.pipe(file);
         // after download completed close filestream
         file.on('finish', () => {
