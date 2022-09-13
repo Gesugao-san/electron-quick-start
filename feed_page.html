@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-src 'self';">
+  <!-- Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'; -->
+  <link href="./styles.css" rel="stylesheet">
+  <title>Open BYOND — Feed page</title>
+</head>
+<body>
+  <h3>Open BYOND</h3>
+  <p>
+    Go to: [<a target="_self" href="./index.html" >Buttons page</a>,
+    Feed page</a>]
+  </p>
+  <hr />
+
+  <!-- You can also require other files to run in this process -->
+  <script src="./renderer.js"></script>
+  <!-- <script src="./download.js"></script> -->
+</body>
+</html>
