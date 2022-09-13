@@ -3,91 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-src 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; frame-src 'self';">
   <!-- Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'; -->
   <link href="./styles.css" rel="stylesheet">
   <title>Open BYOND — Buttons page</title>
 </head>
 <body>
   <h3>Open BYOND</h3>
-  <p>
-    Go to: [Buttons page,
-    <a target="_self" href="./feed_page.html" >Feed page</a>]
-  </p>
+  <div id="navbar-landing"></div>
   <hr />
-  <table style="width: 45%; border-collapse: collapse;" border="1"><caption>We are using:</caption>
+
+  <br>
+  <table style="width: 100%; border-collapse: collapse;" border="1"><caption>Feed file operations (internet)</caption>
     <tbody>
       <tr>
-        <td>Node.js</td>
-        <td>Chromium</td>
-        <td>Electron</td>
+        <td><button id="feed_download_clear">Clear feed file</button></td>
+        <td><button id="feed_download_action">Download feed file</button></td>
+        <td><button id="feed_download_read">Read feed file</button></td>
+        <td style="width: 50%;">&nbsp;</td>
       </tr>
+    </tbody>
+  </table>
+  <table style="border-collapse: collapse; width: 100%;" border="1">
+    <tbody>
       <tr>
-        <td><span id="node-version"></span></td>
-        <td><span id="chrome-version"></span></td>
-        <td><span id="electron-version"></td>
-        </tr>
-      </tbody>
-    </table>
+        <td>Status:</td>
+        <td style="width: 99%;"><p id="feed_download_status">Waiting for click...</p></td>
+      </tr>
+    </tbody>
+  </table>
 
-    <br>
-    <hr />
-    <table style="width: 100%; border-collapse: collapse;" border="1"><caption>Feed file operations (internet)</caption>
-      <tbody>
-        <tr>
-          <td><button id="feed_download_clear">Clear feed file</button></td>
-          <td><button id="feed_download_action">Download feed file</button></td>
-          <td><button id="feed_download_read">Read feed file</button></td>
-          <td style="width: 50%;">&nbsp;</td>
-        </tr>
-      </tbody>
-    </table>
+  <br>
+  <br>
+  <table style="width: 100%; border-collapse: collapse;" border="1"><caption>Feed file operations (processing)</caption>
+    <tbody>
+      <tr>
+        <td><button id="feed_process_clear">Flush feed list</button></td>
+        <td><button id="feed_process_action">Process feed data</button></td>
+        <td style="width: 65%;">&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
     <table style="border-collapse: collapse; width: 100%;" border="1">
       <tbody>
         <tr>
           <td>Status:</td>
-          <td style="width: 99%;"><p id="feed_download_status">Waiting for click...</p></td>
+          <td style="width: 99%;"><p id="process_status">Waiting for click...</p></td>
         </tr>
       </tbody>
     </table>
-
-    <br>
-    <br>
-    <table style="width: 100%; border-collapse: collapse;" border="1"><caption>Feed file operations (processing)</caption>
-      <tbody>
-        <tr>
-          <td><button id="feed_process_clear">Clear feed data</button></td>
-          <td><button id="feed_process_action">Process feed data</button></td>
-          <td style="width: 65%;">&nbsp;</td>
-        </tr>
-      </tbody>
-    </table>
-    <div>
-      <table style="border-collapse: collapse; width: 100%;" border="1">
-        <tbody>
-          <tr>
-            <td>Status:</td>
-            <td style="width: 99%;"><p id="process_status">Waiting for click...</p></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <br><br>
+  </div>
+  <br>
+  <div>
+    <p>Forum feed:</p>
+    <div id="feeds_shown">
+      <ul>
+        <li>Lorem</li>
+        <li>Ipsum</li>
+      </ul>
     </div>
-    <div>
-      <div>Feed:</div>
-      <div id="feeds_shown">
-        <ul>
-          <li>Lorem</li>
-          <li>Ipsum</li>
-        </ul>
-      </div>
-    </div>
+  </div>
 
-    <hr />
+  <hr />
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
-    <script src="./download.js"></script>
-  </body>
+  <!-- You can also require other files to run in this process -->
+  <script src="./renderer.js"></script>
+  <script src="./navbar.js" defer></script>
+  <script src="./download.js"></script>
+</body>
 </html>

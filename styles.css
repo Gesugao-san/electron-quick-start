@@ -8,4 +8,58 @@
   body { background: #ddd; color: black; }
 } */
 
+/* Navbar list */
+ul.hr {
+  margin: 0;
+  padding: 4px;
+}
+
+ul.hr li {
+  display: inline; /* show as horisontal element */
+  border: 1px solid #555;
+  padding: 3px;
+  margin-right: 5px;
+}
+
+/* Links */
+a:link {
+  color: green;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:visited {
+  color: pink;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: red;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:active {
+  color: yellow;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+/* ul li:nth-child(9) {
+  font-style: italic;
+} */
+
+/* .one_feed #date_gmt{
+  font-style: italic;
+}
+.one_feed #last_activity_gmt{
+  font-style: italic;
+} */
+
+li[id$="_gmt"] {
+  font-style: italic;
+  list-style-type: none;
+}
+
 /* Add styles here to customize the appearance of your app */

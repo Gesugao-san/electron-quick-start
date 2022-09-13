@@ -1,10 +1,10 @@
 {
   "verbose": true,
   "ignore": [
-		".vscode",
-		".git",
-		".DS_Store",
-		"node_modules/**/node_modules",
-		"cache/*"
+    ".vscode",
+    ".git",
+    ".DS_Store",
+    "node_modules/",
+    "cache/"
   ]
 }

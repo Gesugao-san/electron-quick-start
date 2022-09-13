@@ -6,12 +6,27 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-src 'self';">
   <!-- Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'; -->
   <link href="./styles.css" rel="stylesheet">
-  <title>Open BYOND — Feed page</title>
+  <title>Open BYOND — About</title>
 </head>
 <body>
   <h3>Open BYOND</h3>
   <div id="navbar-landing"></div>
   <hr />
+
+  <table style="width: 45%; border-collapse: collapse;" border="1"><caption>We are using:</caption>
+    <tbody>
+      <tr>
+        <td>Node.js</td>
+        <td>Chromium</td>
+        <td>Electron</td>
+      </tr>
+      <tr>
+        <td><span id="node-version"></span></td>
+        <td><span id="chrome-version"></span></td>
+        <td><span id="electron-version"></span></td>
+      </tr>
+    </tbody>
+  </table>
 
   <!-- You can also require other files to run in this process -->
   <script src="./renderer.js"></script>
