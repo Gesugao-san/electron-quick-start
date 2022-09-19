@@ -11,12 +11,12 @@ function createWindow () {
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'src/backend/preload.js')
     }
   })
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html');
+  mainWindow.loadFile('src/frontend/index.html');
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
