@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 
-if (typeof path     === 'undefined' || path     === null) path     = require('path');
+if (typeof path        === 'undefined' || path        === null) path        = require('path');
+//if (typeof windows1251 === 'undefined' || windows1251 === null) windows1251 = require('windows1251');
 
 const target = path.join(process.cwd(), '/src/backend/download');
 console.log(target);
@@ -20,16 +21,42 @@ const persistent_keys = ['id', 'hubpath', 'title', 'author', 'list', 'fans', 'ta
 const ephemeral_keys = ['hidden', 'type', 'play_mode', 'score', 'has_benefits', 'icon', 'smallicon', 'download', 'ziplen'];
 const all_headers = ['id', 'hidden', 'hubpath', 'title', 'author', 'type', 'play_mode', 'score', 'has_benefits', 'icon', 'smallicon', 'download', 'ziplen', 'list', 'fans', 'tags', 'date', 'mtime', 'rtime'];
 
+// https://stackoverflow.com/a/41451528/8175291
+var decodeMap = {};
+var win1251 = new TextDecoder("windows-1251");
+for (var i = 0x00; i < 0xFF; i++) {
+  var hex = (i <= 0x0F ? "0" : "") +      // zero-padded
+            i.toString(16).toUpperCase();
+  decodeMap[hex] = win1251.decode(Uint8Array.from([i]));
+}
+// console.log(decodeMap);
+// {"10":"\u0010", ... "40":"@","41":"A","42":"B", ... "C0":"А","C1":"Б", ...
+
+
+// Decodes a windows-1251 encoded string, additionally
+// encoded as an ASCII string where each non-ASCII character of the original
+// windows-1251 string is encoded as %XY where XY (uppercase!) is a
+// hexadecimal representation of that character's code in windows-1251.
+function percentEncodedWin1251ToDOMString(str) {
+  if (str)
+    return String(str).replace(/%([0-9A-F]{2})/g,
+      (match, hex) => decodeMap[hex]);
+}
+
+
 /* https://stackoverflow.com/a/2324826/8175291 */
 function appendDataToTable(rewrite = false, clear = false) {
   let c, r, t, h, b, l, d, t_exist = false;
   //let data = [['Column 1', 'Column 2'], [123, 456]];
+
+  console.log('Function "appendDataToTable" started.');
 
   t = document.getElementById('table');
   if (!t || rewrite) {
     console.log('Table not existing, creating new one...')
     t = document.createElement('table');
     t.id = 'table';
+    t.className = 'searchable sortable';
     h = t.createTHead();
     r = h.insertRow(0);
     for (let i = 0; i < all_headers.length; i++) {
@@ -41,6 +68,8 @@ function appendDataToTable(rewrite = false, clear = false) {
     t_exist = true;
     b = t.getElementsByTagName('tbody')[0];
   }
+
+  console.log('Function "appendDataToTable": filtering data by keys, searching for anomalies...');
 
   for (const [k, v] of Object.entries(data_dict)) {
     switch (k) {
@@ -87,15 +116,48 @@ function appendDataToTable(rewrite = false, clear = false) {
     }
   } */
 
-  let data_dict_values = Object.values(data_dict);
+  console.log('Function "appendDataToTable": sorting data by fans...');
+
+  // Create items array
+  var items = Object.keys(data_dict).map((key) => {
+    return [key, data_dict[key]['fans']];
+  });
+  // Sort the array based on the second element
+  items.sort((first, second) => {
+    return second[1] - first[1];
+  });
+  // Create a new array with only the first 5 items
+  ////console.log(items.slice(0, 15));
+  // https://stackoverflow.com/a/25500462/8175291
+
+  data_dict_sorted = {};
+  for (let i = 0; i < items.length; i++) {
+    data_dict_sorted[String(items[i][0])] = data_dict[String(items[i][0])];
+  }
+
+  console.log('Function "appendDataToTable": constructing table...');
+
+  let data_dict_values = Object.values(data_dict_sorted);
   for (const creation of data_dict_values) {
     r = b.insertRow(data_dict_values.indexOf(creation));
     for (let i = 0; i < all_headers.length; i++) {
       const header_name = all_headers[i];
+      let cell_content = String(creation[header_name]); // .replace(/%([^\d].)/, "%25$1")
+      if (['hidden', 'play_mode', 'has_benefits', 'icon', 'smallicon', 'download', 'ziplen'].includes(header_name)) { // FIX_ME
+        cell_content = cell_content.replaceAll('undefined', 'false');
+      } if (header_name == 'title') {
+        cell_content = percentEncodedWin1251ToDOMString(cell_content).replaceAll('+', ' '); //decodeURI(unescape(unescape(cell_content)));
+      } else if (header_name == 'author') {
+        cell_content = cell_content.replaceAll('+', ' ');
+      } else if (header_name == 'tags') {
+        cell_content = cell_content.replaceAll('+', ',');
+      }
       c = r.insertCell(i);
-      c.appendChild(document.createTextNode(String(creation[header_name])));
+      c.appendChild(document.createTextNode(String(cell_content)));
     }
   }
+
+  console.log('Function "appendDataToTable" about to done with work.');
 
   if (!t_exist && !clear && !rewrite) {
     d = document.getElementById('appendDataToTable');

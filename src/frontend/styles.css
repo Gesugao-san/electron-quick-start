@@ -62,4 +62,16 @@ li[id$="_gmt"] {
   list-style-type: none;
 }
 
+table[id$="table"] td {
+  /* border: 1px dotted #999; */
+  /* border: 3px solid; */
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  border-collapse: collapse;
+}
+
+table thead{
+  font-weight: bold;
+}
+
 /* Add styles here to customize the appearance of your app */
