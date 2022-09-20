@@ -47,6 +47,21 @@
     </div>
   </div>
 
+  <p>
+    Table:
+    <input type="submit" value="Append data or create" onclick="appendDataToTable();" />
+    <input type="submit" value="Rewrite or create" onclick="appendDataToTable(true);" />
+    <input type="submit" value="Clear or create" onclick="appendDataToTable(false, true);" />
+    <br>
+    <details>
+      <summary class="center">Tip (clickable)</summary>
+      <p class="center">: Check browser console for details.</p>
+    </details>
+  </p>
+  <hr />
+  <div id="appendDataToTable"></div>
+  <hr />
+
   <hr />
 
   <!-- You can also require other files to run in this process -->

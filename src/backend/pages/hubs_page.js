@@ -17,57 +17,86 @@ let data_matrix = download.data_matrix;
 } */
 
 const persistent_keys = ['id', 'hubpath', 'title', 'author', 'list', 'fans', 'tags', 'date', 'mtime', 'rtime'];
-// ephemeral
-const hideable_keys = ['type', 'hidden', 'download', 'ziplen', 'play_mode', 'score', 'icon', 'smallicon', 'has_benefits'];
+const ephemeral_keys = ['hidden', 'type', 'play_mode', 'score', 'has_benefits', 'icon', 'smallicon', 'download', 'ziplen'];
+const all_headers = ['id', 'hidden', 'hubpath', 'title', 'author', 'type', 'play_mode', 'score', 'has_benefits', 'icon', 'smallicon', 'download', 'ziplen', 'list', 'fans', 'tags', 'date', 'mtime', 'rtime'];
 
 /* https://stackoverflow.com/a/2324826/8175291 */
 function appendDataToTable(rewrite = false, clear = false) {
   let c, r, t, h, b, l, d, t_exist = false;
-  for (const [k, v] of Object.entries(data_dict)) {
-    switch (k) {
-      case 'rtime':
-        console.log('Refresh time:', v, '; (GMT):', new Date(v * 1e3).toGMTString());
-        break;
-      case 'type':
-        console.log('Entry type:', v);
-        break;
-      default:
-        break;
-    }
-    if (typeof v == "object") {
-      //console.log(`ID: %s, hidden: %s, hubpath: %s, title: %s, type: %s, download: %s, ziplen: %s, list: %s, fans: %s, tags: %s, date: %s, mtime: %s, rtime: %s` % (v.id, (v.hidden || false), v.hubpath, v.title, (v.type || 'N/A'), (v.download || false), (v.ziplen || 'N/A'), v.list, v.fans, v.tags, v.date, v.mdate, v.rtime));
-      console.log(v.id, (v.hidden || false), v.hubpath, v.title, (v.type || 'N/A'), (v.download || false), (v.ziplen || 'N/A'), v.list, v.fans, v.tags, v.date, v.mdate, v.rtime);
-      for (const kk of Object.keys(v))
-        if (!persistent_keys.includes(kk) && !hideable_keys.includes(kk)) {
-          console.log('Strange key:', kk);
-        }
-    }
-  }
   //let data = [['Column 1', 'Column 2'], [123, 456]];
 
   t = document.getElementById('table');
   if (!t || rewrite) {
+    console.log('Table not existing, creating new one...')
     t = document.createElement('table');
     t.id = 'table';
     h = t.createTHead();
     r = h.insertRow(0);
-    for (let i = 0; i < data_dict.headers.length; i++) {
+    for (let i = 0; i < all_headers.length; i++) {
       c = r.insertCell(i);
-      c.appendChild(document.createTextNode(String(data_dict.headers[i])));
+      c.appendChild(document.createTextNode(String(all_headers[i])));
     }
     b = t.createTBody();
   } else {
     t_exist = true;
     b = t.getElementsByTagName('tbody')[0];
   }
-  l = b.rows.length; // offset
-  for (let i = 0; i < data_dict.data.length; i++) {
-    r = b.insertRow(l + i);
-    for (let ii = 0; ii < data_dict.data[i].length ; ii++) {
-      c = r.insertCell(ii);
-      c.appendChild(document.createTextNode(String(data_dict.data[i][ii])));
+
+  for (const [k, v] of Object.entries(data_dict)) {
+    switch (k) {
+      case 'rtime':
+        console.log('Refresh time:', v, '; (GMT):', new Date(v * 1e3).toGMTString());
+        delete data_dict[k];
+        break;
+      case 'type':
+        console.log('Entry type:', v);
+        delete data_dict[k];
+        break;
+      default:
+        break;
+    }
+    if (typeof v == "object") {
+      //console.log(`ID: %s, hidden: %s, hubpath: %s, title: %s, type: %s, download: %s, ziplen: %s, list: %s, fans: %s, tags: %s, date: %s, mtime: %s, rtime: %s` % (v.id, (v.hidden || false), v.hubpath, v.title, (v.type || 'N/A'), (v.download || false), (v.ziplen || 'N/A'), v.list, v.fans, v.tags, v.date, v.mdate, v.rtime));
+      //console.log(v.id, (v.hidden || false), v.hubpath, v.title, (v.type || 'N/A'), (v.download || false), (v.ziplen || 'N/A'), v.list, v.fans, v.tags, v.date, v.mdate, v.rtime);
+      for (const kk of Object.keys(v))
+        if (!all_headers.includes(kk)) {
+          console.log('Strange key:', kk);
+        }
     }
   }
+
+  /* for (let i = 0; i < all_headers.length; i++) {
+    const value = all_headers[i];
+    console.log(value);
+  } */
+  /* for (const key of all_headers) {
+    const index = all_headers.indexOf(key);
+    console.log(all_headers[index]);
+  } */
+
+  /* for (let i = 0; i < all_headers.length; i++) {
+    const header = all_headers[i];
+    r = b.insertRow(i);
+    for (const entries of Object.values(data_dict)) {
+      for (const [kkkkk, creation] of Object.entries(entries)) {
+        //console.log('creationL', kkkkk, creation);
+        let creation_index = (Object.keys(creation || {})).indexOf(header);
+        c = r.insertCell(creation_index);
+        c.appendChild(document.createTextNode(String(creation_index.id)));
+      }
+    }
+  } */
+
+  let data_dict_values = Object.values(data_dict);
+  for (const creation of data_dict_values) {
+    r = b.insertRow(data_dict_values.indexOf(creation));
+    let [creation_keys, creation_contains] = Object.entries(creation);
+    for (const kk of creation_keys) {
+      c = r.insertCell(creation_keys.indexOf(kk));
+      c.appendChild(document.createTextNode(String(creation_contains)));
+    }
+  }
+
   if (!t_exist && !clear && !rewrite) {
     d = document.getElementById('appendDataToTable');
     d.appendChild(t);
