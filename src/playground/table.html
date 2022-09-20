@@ -6,9 +6,37 @@
   <!-- Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'; -->
   <link href="./../frontend/styles.css" rel="stylesheet">
   <title>Open BYOND — Table test</title>
+  <style>
+    /* https://stackoverflow.com/a/41922809/8175291 */
+    details {
+      font-style: italic;
+    }
+    details[open] {
+      font-style: normal;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .center {
+      display: inline;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
 </head>
 <body>
-  <input type="submit" value="Create Table or update" onclick="addTable()"/>
+  <p>
+    Table:
+    <input type="submit" value="Append data or create" onclick="addTable()" />
+    <input type="submit" value="rewrite or create" onclick="addTable(true)" />
+    <input type="submit" value="clear or create" onclick="addTable(false, true)" />
+    <br>
+    <details>
+      <summary class="center">Tip (clickable)</summary>
+      <p class="center">: Check browser console for details.</p>
+    </details>
+  </p>
   <hr />
   <div id="addtable"></div>
   <hr />

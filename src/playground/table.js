@@ -1,7 +1,7 @@
 
 
 /* https://stackoverflow.com/a/2324826/8175291 */
-function addTable() {
+function addTable(rewrite = false, clear = false) {
   let c, r, t, h, b, l, d, t_exist = false;
   //let data = [['Column 1', 'Column 2'], [123, 456]];
   let data_dict = {
@@ -12,7 +12,7 @@ function addTable() {
     ]
   };
   t = document.getElementById('table');
-  if (!t) {
+  if (!t || rewrite) {
     t = document.createElement('table');
     t.id = 'table';
     h = t.createTHead();
@@ -34,13 +34,32 @@ function addTable() {
       c.appendChild(document.createTextNode(String(data_dict.data[i][ii])));
     }
   }
-  if (!t_exist) {
+  if (!t_exist && !rewrite) {
     d = document.getElementById('addtable');
     d.appendChild(t);
     console.log('Table created:', t);
+    return;
+  } else if (clear) {
+    d = document.getElementById('addtable');
+    let tt = document.getElementById('table');
+    if (tt) d.removeChild(tt);
+    console.log('Table cleared.');
+    return;
+  } else if (rewrite) {
+    d = document.getElementById('addtable');
+    let tt = document.getElementById('table');
+    if (tt) {
+      if (t.outerHTML == tt.outerHTML)
+        return console.log('Existing and inserting tables are identical, passing.');
+      d.removeChild(tt);
+    }
+    d.appendChild(t); // d.insertBefore(tt, t);
+    console.log('Table rewrited.');
+    return;
   } else {
     b.appendChild(r);
     console.log('Table updated.');
+    return;
   }
 }
 
