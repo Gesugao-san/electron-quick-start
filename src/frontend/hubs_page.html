@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="font-src 'self'; img-src 'self'; style-src 'self' 'unsafe-inline'; frame-src 'self';">
+  <!-- Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'; -->
+  <link href="./styles.css" rel="stylesheet">
+  <title>Open BYOND — Hubs page</title>
+</head>
+<body>
+  <h3>Open BYOND</h3>
+  <div id="navbar-landing"></div>
+  <hr />
+
+  <br>
+  <button onclick="window.open('https://www.byond.com/rsc/hubcache.js?'+Math.floor(Date.now()/1e3));">Open hubcache on BYOND</button>
+
+  <br>
+  <table style="width: 100%; border-collapse: collapse;" border="1"><caption>Hubs file operations (processing)</caption>
+    <tbody>
+      <tr>
+        <td><button id="hubs_process_clear">Flush hubs list</button></td>
+        <td><button id="hubs_process_action">Process hubs data</button></td>
+        <td style="width: 65%;">&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <table style="border-collapse: collapse; width: 100%;" border="1">
+      <tbody>
+        <tr>
+          <td>Status:</td>
+          <td style="width: 99%;"><p id="process_status">Waiting for click...</p></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <br>
+  <div>
+    <p>Hubs:</p>
+    <div id="hubs_shown">
+      <ul>
+        <li>Lorem</li>
+        <li>Ipsum</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr />
+
+  <!-- You can also require other files to run in this process -->
+  <script src="./../backend/renderer.js"></script>
+  <script src="./../backend/navbar.js" defer></script>
+  <script src="./../backend/hubs_page.js"></script>
+</body>
+</html>

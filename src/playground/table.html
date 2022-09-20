@@ -1,0 +1,39 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="font-src 'self'; img-src 'self'; style-src 'self' 'unsafe-inline'; frame-src 'self';">
+  <!-- Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'; -->
+  <link href="./styles.css" rel="stylesheet">
+  <title>Open BYOND — Table test</title>
+
+  <script type="text/javascript">
+    function addTable() {
+      let c, r, t, d, t_exist = false;
+      t = document.getElementById("table");
+      if (t) t_exist = true; // document.body.contains('table')
+      if (!t_exist) {
+        t = document.createElement('table');
+        t.id = 'table';
+      }
+      r = t.insertRow(0);
+      c = r.insertCell(0);
+      c.innerHTML = 123;
+      c = r.insertCell(1);
+      c.appendChild(document.createTextNode(String(456)));
+      if (!t_exist) {
+        d = document.getElementById('table') || document.getElementById("addtable");
+        d.appendChild(t);
+        console.log('Table created.')
+      } else {
+        console.log('Table updated.')
+        t.appendChild(r);
+      }
+    }
+    </script>
+</head>
+<body>
+  <input type="submit" value="Create Table or update" onClick="addTable()"/>
+  <div id="addtable"></div>
+</body>
+</html>

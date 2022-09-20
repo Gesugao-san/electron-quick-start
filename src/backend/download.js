@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 /*
 	https://www.digitalocean.com/community/tutorials/how-to-create-a-web-server-in-node-js-with-the-http-module-ru
@@ -20,18 +19,27 @@ const cwd  = process.cwd();  //process.env.CWD  || process.cwd();
 const spid = process.env.SPID || 'abcd';
 
 let data_matrix = {
-  "cache": {
-    "meta": {
+  cache: {
+    meta: {
       "path": path.join(".", "cache")
     },
-    "feed": {
-      "meta": {
+    feed: {
+      meta: {
         "filename": path.join("cache", "feed")  // Warning: It's "feed.js"!
       },
-      "processed": {
+      processed: {
         "exist": false,
         "path": path.join(cwd, "cache", "feed.json")
       },
+    },
+    hubcache: {
+      meta: {
+        "filename": path.join("cache", "hubcache")  // Warning: It's "feed.js"!
+      },
+      processed: {
+        "exist": false,
+        "path": path.join(cwd, "cache", "hubcache.json")
+      }
     }
   }
 }
@@ -50,6 +58,127 @@ function createList(mode, data = Array()) {
         const current_feed = feeds_arr[i];
         let li_value = 0;
         console.log('current_feed:', current_feed);
+        let feed_list = document.createElement('ol');
+        feed_list.setAttribute('class', 'one_feed');
+        feed_list.id = current_feed.post; //feed_list.setAttribute('id', toString(current_feed));
+        for (const [key, value] of Object.entries(current_feed)) {
+          let feed_element = document.createElement('li');
+          feed_element.setAttribute('id', key);
+          switch (key) {
+            case 'author': //
+            case 'key':
+              feed_element.appendChild(document.createTextNode(`${key}: `));
+              //let blank_link = document.createElement("a").setAttribute('target', '_blank');
+
+              const member_href = `https://www.byond.com/members/${value}`;
+              let user_link = document.createElement("a");
+              user_link.setAttribute('href', `${member_href}?tab=favorites`);
+              user_link.setAttribute('target', '_blank');
+              user_link.appendChild(document.createTextNode(value));
+              feed_element.appendChild(user_link);
+
+              feed_element.appendChild(document.createTextNode(' ('));
+              let posts_link = document.createElement("a");
+              posts_link.setAttribute('href', `${member_href}?tab=index`);
+              posts_link.setAttribute('target', '_blank');
+              posts_link.appendChild(document.createTextNode('posts'));
+              feed_element.appendChild(posts_link);
+              feed_element.appendChild(document.createTextNode(', '));
+
+              let comments_link = document.createElement("a");
+              comments_link.setAttribute('href', `${member_href}?tab=index`);
+              comments_link.setAttribute('target', '_blank');
+              comments_link.appendChild(document.createTextNode('comments'));
+              feed_element.appendChild(comments_link);
+              feed_element.appendChild(document.createTextNode(', '));
+
+              let fans_link = document.createElement("a");
+              fans_link.setAttribute('href', `${member_href}?command=view_fans`);
+              fans_link.setAttribute('target', '_blank');
+              fans_link.appendChild(document.createTextNode('fans'));
+              feed_element.appendChild(fans_link);
+              feed_element.appendChild(document.createTextNode('; '));
+
+
+              const games_href = `https://www.byond.com/games/${value}`;
+              let creations_link = document.createElement("a");
+              creations_link.setAttribute('href', `${games_href}?tab=creations`);
+              creations_link.setAttribute('target', '_blank');
+              creations_link.appendChild(document.createTextNode('creations'));
+              feed_element.appendChild(creations_link);
+              feed_element.appendChild(document.createTextNode(', '));
+
+              let favorites_link = document.createElement("a");
+              favorites_link.setAttribute('href', `${games_href}?tab=favorites`);
+              favorites_link.setAttribute('target', '_blank');
+              favorites_link.appendChild(document.createTextNode('favorites'));
+              feed_element.appendChild(favorites_link);
+              feed_element.appendChild(document.createTextNode(', '));
+
+              let medals_link = document.createElement("a");
+              medals_link.setAttribute('href', `${games_href}?tab=medals`);
+              medals_link.setAttribute('target', '_blank');
+              medals_link.appendChild(document.createTextNode('medals'));
+              feed_element.appendChild(medals_link);
+
+              feed_element.appendChild(document.createTextNode(')'));
+              break;
+            case 'forum':
+              feed_element.appendChild(document.createTextNode(`${key}: `));
+              let forums_link = document.createElement("a");
+              forums_link.setAttribute('href', `https://www.byond.com/forum/`);
+              forums_link.setAttribute('target', '_blank');
+              forums_link.appendChild(document.createTextNode('forums'));
+              feed_element.appendChild(document.createTextNode(value));
+              feed_element.appendChild(document.createTextNode(' ('));
+              feed_element.appendChild(forums_link);
+              feed_element.appendChild(document.createTextNode(')'));
+              break;
+            //https://www.byond.com/forum/
+            case 'web_url':
+              let web_link = document.createElement("a");
+              web_link.setAttribute('href', value);
+              web_link.setAttribute('target', '_blank');
+              web_link.appendChild(document.createTextNode(value)); //web_link.textContent = value;
+              feed_element.appendChild(document.createTextNode(`${key}: `));
+              feed_element.appendChild(web_link);
+              break;
+            case 'last_activity': //
+            case 'date':
+              feed_element.appendChild(document.createTextNode(`${key} (timestamp): ${value} `));
+              feed_element.setAttribute('id', `${key}_timestamp`);
+              feed_list.appendChild(feed_element);
+              feed_element = document.createElement('li');
+              feed_element.appendChild(document.createTextNode(`${key} (GMT): ${new Date(value* 1e3).toGMTString()}`)); //`x.toLocaleString('en-US', {hour12: false})})`));
+              feed_element.setAttribute('id', `${key}_gmt`);
+              break;
+            default:
+              feed_element.appendChild(document.createTextNode(`${key}: ${value}`)); //current_feed[ii]
+              break;
+          }
+          li_value += 1;
+          feed_element.setAttribute('value', `${li_value}`);
+          feed_list.appendChild(feed_element);
+        }
+        const temp = document.createElement('li');
+        temp.appendChild(document.createTextNode((current_feed.is_feed ? 'Feed №' : 'Entry №') + `${current_feed.post}:`));
+        temp.appendChild(feed_list);
+        feeds_list.appendChild(temp);
+        /* for (let ii = 0; ii < Object.keys(current_feed).length; ii++) { } */
+      }
+      return feeds_list; //break;
+    case 'hubcache':
+      /* if (['rtime', 'type'].includes(key)) {
+        return data_to_json_parsed[key] = !isNaN(data) ? parseInt(data) : data;
+      } */
+      const hubcache_arr = data; //feed_package.pagerinit_dict.lists.feed;
+      console.log('Processing hubcache package, contains:', hubcache_arr);
+      let hubcache_list = document.createElement('ol');
+      for (let i = 0; i < hubcache.length; i++) {
+        const current_feed = hubcache[i];
+        let li_value = 0;
+        console.log('current hubcache entry:', current_feed);
+        break;
         let feed_list = document.createElement('ol');
         feed_list.setAttribute('class', 'one_feed');
         feed_list.id = current_feed.post; //feed_list.setAttribute('id', toString(current_feed));
@@ -281,10 +410,14 @@ function func_feed_process(ev) {
 };
 
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById("feed_download_clear").addEventListener("click", func_feed_download);
-  document.getElementById("feed_download_action").addEventListener("click", func_feed_download);
-  document.getElementById("feed_download_read").addEventListener("click", func_feed_download);
-  document.getElementById("feed_process_action").addEventListener("click", func_feed_process);
-  document.getElementById("feed_process_clear").addEventListener("click", func_feed_process);
+module.exports = {status_update, createList, data_matrix}
+
+if (document)
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("feed_download_clear").addEventListener("click", func_feed_download);
+    document.getElementById("feed_download_action").addEventListener("click", func_feed_download);
+    document.getElementById("feed_download_read").addEventListener("click", func_feed_download);
+    document.getElementById("feed_process_action").addEventListener("click", func_feed_process);
+    document.getElementById("feed_process_clear").addEventListener("click", func_feed_process);
 });
+
