@@ -90,10 +90,10 @@ function appendDataToTable(rewrite = false, clear = false) {
   let data_dict_values = Object.values(data_dict);
   for (const creation of data_dict_values) {
     r = b.insertRow(data_dict_values.indexOf(creation));
-    let [creation_keys, creation_contains] = Object.entries(creation);
-    for (const kk of creation_keys) {
-      c = r.insertCell(creation_keys.indexOf(kk));
-      c.appendChild(document.createTextNode(String(creation_contains)));
+    for (let i = 0; i < all_headers.length; i++) {
+      const header_name = all_headers[i];
+      c = r.insertCell(i);
+      c.appendChild(document.createTextNode(String(creation[header_name])));
     }
   }
 
