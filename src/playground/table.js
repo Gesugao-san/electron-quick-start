@@ -1,7 +1,7 @@
 
 
 /* https://stackoverflow.com/a/2324826/8175291 */
-function addTable(rewrite = false, clear = false) {
+function appendDataToTable(rewrite = false, clear = false) {
   let c, r, t, h, b, l, d, t_exist = false;
   //let data = [['Column 1', 'Column 2'], [123, 456]];
   let data_dict = {
@@ -34,19 +34,23 @@ function addTable(rewrite = false, clear = false) {
       c.appendChild(document.createTextNode(String(data_dict.data[i][ii])));
     }
   }
-  if (!t_exist && !rewrite) {
-    d = document.getElementById('addtable');
+  if (!t_exist && !clear && !rewrite) {
+    d = document.getElementById('appendDataToTable');
     d.appendChild(t);
     console.log('Table created:', t);
     return;
   } else if (clear) {
-    d = document.getElementById('addtable');
+    d = document.getElementById('appendDataToTable');
     let tt = document.getElementById('table');
-    if (tt) d.removeChild(tt);
-    console.log('Table cleared.');
+    if (tt) {
+      d.removeChild(tt);
+      console.log('Table cleared.');
+    } else {
+      console.log('Table already cleared, passing.');
+    }
     return;
   } else if (rewrite) {
-    d = document.getElementById('addtable');
+    d = document.getElementById('appendDataToTable');
     let tt = document.getElementById('table');
     if (tt) {
       if (t.outerHTML == tt.outerHTML)

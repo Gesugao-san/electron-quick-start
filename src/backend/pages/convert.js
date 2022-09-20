@@ -4,7 +4,7 @@
 if (typeof fs       === 'undefined' || fs       === null) fs       = require('fs');
 if (typeof path     === 'undefined' || path     === null) path     = require('path');
 if (typeof https    === 'undefined' || https    === null) https    = require('https');
-if (typeof download === 'undefined' || download === null) download = require('./download');
+if (typeof download === 'undefined' || download === null) download = require('../download');
 
 const data_to_prepand = {
 	feed: {

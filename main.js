@@ -11,7 +11,7 @@ function createWindow () {
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
-      preload: path.join(__dirname, 'src/backend/preload.js')
+      preload: path.join(__dirname, 'src/backend/electron/preload.js')
     }
   })
 

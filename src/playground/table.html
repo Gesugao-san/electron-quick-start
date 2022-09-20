@@ -28,9 +28,9 @@
 <body>
   <p>
     Table:
-    <input type="submit" value="Append data or create" onclick="addTable()" />
-    <input type="submit" value="rewrite or create" onclick="addTable(true)" />
-    <input type="submit" value="clear or create" onclick="addTable(false, true)" />
+    <input type="submit" value="Append data or create" onclick="appendDataToTable()" />
+    <input type="submit" value="Rewrite or create" onclick="appendDataToTable(true)" />
+    <input type="submit" value="Clear or create" onclick="appendDataToTable(false, true)" />
     <br>
     <details>
       <summary class="center">Tip (clickable)</summary>
@@ -38,7 +38,7 @@
     </details>
   </p>
   <hr />
-  <div id="addtable"></div>
+  <div id="appendDataToTable"></div>
   <hr />
   <script type="text/javascript" src="./table.js"></script>
 </body>

@@ -174,8 +174,8 @@ function createList(mode, data = Array()) {
       const hubcache_arr = data; //feed_package.pagerinit_dict.lists.feed;
       console.log('Processing hubcache package, contains:', hubcache_arr);
       let hubcache_list = document.createElement('ol');
-      for (let i = 0; i < hubcache.length; i++) {
-        const current_feed = hubcache[i];
+      for (let i = 0; i < hubcache_arr.length; i++) {
+        const current_feed = hubcache_arr[i];
         let li_value = 0;
         console.log('current hubcache entry:', current_feed);
         break;
