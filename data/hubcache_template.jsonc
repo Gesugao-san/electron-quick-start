@@ -1,0 +1,25 @@
+{
+	"rtime": 1663653482, // Tue Sep 20 2022 05:58:02 GMT+0000 (http://unixtimestamp.com)
+	"type": "hub",
+	"author.title": {
+		"id": 0,
+		"hidden": true,
+		"hubpath": "author.title",
+		"title": "title",
+		"author": "author",
+		"type": "type",
+		"play_mode": "play_mode",
+		"score": 0,
+		"has_benefits": 1,
+		"icon": "27850.png",
+		"smallicon": "27850_s.png",
+		"download": true,
+		"ziplen": 0,
+		"list": "list",
+		"fans": 0,
+		"tags": null,
+		"date": 1663653482,
+		"mtime": 1663653482,
+		"rtime": 1663653482
+	}
+}
