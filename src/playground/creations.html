@@ -1,0 +1,94 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="font-src 'self'; img-src 'self'; style-src 'self' 'unsafe-inline'; frame-src 'self';">
+  <!-- Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'; -->
+  <link href="./../frontend/styles.css" rel="stylesheet">
+  <title>Open BYOND — Creations test</title>
+  <script type="text/javascript">
+    const data = {
+      "rtime": 1663653482, // Tue Sep 20 2022 05:58:02 GMT+0000 (http://unixtimestamp.com)
+      "type": "hub",
+      "author.title": {
+        "id": 0,
+        "hidden": true,
+        "hubpath": "author.title",
+        "title": "title",
+        "author": "author",
+        "type": "type",
+        "play_mode": "play_mode",
+        "score": 0,
+        "has_benefits": 1,
+        "icon": "id.png",
+        "smallicon": "id_s.png",
+        "download": true,
+        "ziplen": 0,
+        "list": "list",
+        "fans": 0,
+        "tags": null,
+        "date": 1663653482,
+        "mtime": 1663653482,
+        "rtime": 1663653482
+      }
+    };
+    /* async function land_navbar() {
+      let res = await fetch('./navbar.html')
+        .then((res) => {return res.text();})
+        .catch((error) => {console.error(error); return error});
+      document.getElementById('navbar-landing').innerHTML = res.toString();
+    } */
+    const replaceText = (selector, text) => {
+      const element = document.getElementById(selector);
+      if (element) element.innerText = text;
+      else console.warn('No element', selector);
+    }
+    function go() {
+      // land_navbar()
+      for (const key of ['rtime']) {
+        replaceText(`${key}`, data[key]);
+      }
+      for (const key of ['id', 'hubpath']) {
+        replaceText(`${key}`, data['author.title'][key]);
+      }
+    }
+    function clear() {
+      for (const key of ['rtime', 'id', 'hubpath']) {
+        replaceText(`${key}`, '');
+      }
+    }
+  </script>
+</head>
+<body>
+  <p>
+    Table:
+    <input type="submit" value="go" onclick="go()" />
+    <input type="submit" value="clear" onclick="clear()" />
+    <br>
+  </p>
+  <hr />
+  <div id="go">
+    <span id="rtime"></span>
+    <span id="id"></span>
+    <span id="hubpath"></span>
+    <!-- <table id="table" class="searchable sortable">
+      <thead>
+        <tr>
+          <td>id</td>
+          <td>hidden</td>
+          <td>hubpath</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>id</td>
+          <td>hidden</td>
+          <td>hubpath</td>
+        </tr>
+      </tbody>
+    </table> -->
+  </div>
+  <hr />
+</body>
+</html>
+
