@@ -17,7 +17,9 @@ function createWindow () {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile('src/frontend/index.html');
+  //mainWindow.loadFile('src/frontend/index.html');
+  mainWindow.loadFile('src/playground/bootstrap/Getting_Started/index.html');
+  //mainWindow.loadFile('src/playground/bootstrap/OpenBYOND_launcher/index.html');
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
