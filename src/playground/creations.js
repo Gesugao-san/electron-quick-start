@@ -1,4 +1,22 @@
 
+function isElectron() {
+  // Renderer process
+  if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+      return true;
+  }
+
+  // Main process
+  if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+      return true;
+  }
+
+  // Detect the user agent when the `nodeIntegration` option is set to true
+  if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
+      return true;
+  }
+
+  return false;
+}
 
 const template = {
   "rtime": 1663653482, // Tue Sep 20 2022 05:58:02 GMT+0000 (http://unixtimestamp.com)
@@ -55,6 +73,7 @@ const data = {
 
 /* https://stackoverflow.com/a/2324826/8175291 */
 function appendDataToTable(force_overwrite = false, do_clear = false, /* do_not_rebuild = false */) {
+  console.log('isElectron():', isElectron());
   //console.log('Func was called.');
   let creations_table, tables, icon, data_langing, inserting_data, creations_table_exist = false;
   let cell, caption, row, tbody;
