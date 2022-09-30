@@ -1,6 +1,6 @@
 
 
-const data = {
+const template = {
   "rtime": 1663653482, // Tue Sep 20 2022 05:58:02 GMT+0000 (http://unixtimestamp.com)
   "type": "hub",
   "author.title": {
@@ -26,6 +26,32 @@ const data = {
   }
 };
 
+const data = {
+  "rtime": 1663653482, // Tue Sep 20 2022 05:58:02 GMT+0000 (http://unixtimestamp.com)
+  "type": "hub",
+  "Exadv1.SpaceStation13": {
+    "id": 8266,
+    "hidden": false,  // fake entry
+    "hubpath": "Exadv1.SpaceStation13",
+    "title": "Space+Station+13",  // https://stackoverflow.com/a/41451528/8175291
+    "author": "Exadv1",
+    "type": "game",
+    "play_mode": "multi",
+    "score": 24.92263,
+    "has_benefits": 1,  // fake entry
+    "icon": "8266.png",
+    "smallicon": "8266_s.png",
+    "download": true,  // fake entry
+    "ziplen": 123,  // fake entry
+    "list": "listed",
+    "fans": 158578,
+    "tags": "action+rpg+scifi",
+    "date": 1045371600,
+    "mtime": 1663480753,
+    "rtime": 1663480681
+  },
+};
+
 
 /* https://stackoverflow.com/a/2324826/8175291 */
 function appendDataToTable(force_overwrite = false, do_clear = false, /* do_not_rebuild = false */) {
@@ -45,29 +71,48 @@ function appendDataToTable(force_overwrite = false, do_clear = false, /* do_not_
     row = tbody.insertRow(0);
     cell = row.insertCell(0);
     icon = document.createElement('img');
-    icon.src = "./creation.png";
-    icon.style = "display: inline";
+    icon.src = data['Exadv1.SpaceStation13']['icon'];  // from "https://www.byond.com/games/hubicon/8266.png"  //"./creation.png";
+    //icon.style = "float: left;";
     cell.appendChild(icon); //document.createTextNode(String(template)));
     data_langing = document.createElement('div');
-    data_langing.style = "display: inline";
-    for (const key of ['rtime']) {
+    data_langing.style = "float: left;";
+    /* for (const key of ['rtime']) {
       //console.log('key:', key, data[key]);
       inserting_data = document.createElement('div');
       inserting_data.id = key;
-      inserting_data.style = "display: inline";
-      inserting_data.appendChild(document.createTextNode(String(data[key])));
-      inserting_data.appendChild(document.createElement('br'));
+      //inserting_data.style = "float: left;";
+      inserting_data.appendChild(document.createTextNode(String(data[key]))); // || 'N/A'
+      //inserting_data.appendChild(document.createElement('br'));
       data_langing.appendChild(inserting_data); //document.createTextNode(String(template)));
-    }
-    for (const key of ['id', 'hubpath']) {
-      //console.log('key:', key, data['author.title'][key]);
+    } */
+    for (const key of ['title']) {
+      //console.log('key:', key, data[key]);
       inserting_data = document.createElement('div');
       inserting_data.id = key;
-      inserting_data.style = "display: inline";
-      inserting_data.appendChild(document.createTextNode(String(data['author.title'][key])));
+      //inserting_data.style = "float: left;";
+      inserting_data.appendChild(document.createTextNode(String(data['Exadv1.SpaceStation13'][key].replaceAll('+', ' ')))); //decodeURI(unescape(unescape(cell_content)));)));
+      //inserting_data.appendChild(document.createElement('br'));
+      data_langing.appendChild(inserting_data); //document.createTextNode(String(template)));
+    }
+    for (const key of ['author']) {
+      //console.log('key:', key, data[key]);
+      inserting_data = document.createElement('div');
+      inserting_data.id = key;
+      //inserting_data.style = "float: left;";
+      inserting_data.appendChild(document.createTextNode(String(data['Exadv1.SpaceStation13'][key].replaceAll('+', ' '))));
+      inserting_data.innerHTML = '<i><small>By</small></i> ' + inserting_data.innerHTML;
+      //inserting_data.appendChild(document.createElement('br'));
+      data_langing.appendChild(inserting_data); //document.createTextNode(String(template)));
+    }
+    /* for (const key of ['id', 'hubpath']) {
+      //console.log('key:', key, data['Exadv1.SpaceStation13'][key]);
+      inserting_data = document.createElement('div');
+      inserting_data.id = key;
+      //inserting_data.style = "float: left;";
+      inserting_data.appendChild(document.createTextNode(String(data['Exadv1.SpaceStation13'][key])));
       data_langing.appendChild(document.createTextNode(String(' ')));
       data_langing.appendChild(inserting_data);
-    }
+    } */
     cell.appendChild(data_langing); //document.createTextNode(String(template)));
     console.log('Created table.');
   } else {

@@ -57,12 +57,12 @@ a:active {
   font-style: italic;
 } */
 
-li[id$="_gmt"] {
+li[id $= "_gmt"] {
   font-style: italic;
   list-style-type: none;
 }
 
-table[id$="table"] td {
+table[id $= "table"] td {
   /* border: 1px dotted #999; */
   /* border: 3px solid; */
   border-bottom: 1px solid;
@@ -72,6 +72,24 @@ table[id$="table"] td {
 
 table thead{
   font-weight: bold;
+}
+
+table tbody tr td {
+  /* display: inline; */
+  position: relative;
+}
+
+table tbody tr td img {
+  /* https://stackoverflow.com/q/14168838/8175291 */
+  /* position:absolute;
+  top:0;
+  left:0;
+  */
+  /* https://stackoverflow.com/q/36355455/8175291 */
+  float: left;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  display: inline;
 }
 
 /* Add styles here to customize the appearance of your app */
